@@ -1,23 +1,82 @@
 import React from 'react';
-import { } from '@material-ui/core';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TextField from '@material-ui/core/TextField';
+import FilledInput from '@material-ui/core/FilledInput';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
-const styles = {
-     textBox: {
-          background: '#4E0015',
-          color: 'red'
-     }
-};
+export default class InputItem extends React.Component {
 
-class InputItem extends React.Component {
      constructor(props) {
           super(props);
           this.state = {
                name: "",
                price: 0,
-               quantity: 0
+               quantity: 1
           };
           this.handleChange = this.handleChange.bind(this);
           this.addNewItem = this.addNewItem.bind(this);
+          this.classes = this.classes.bind(this)
+     }
+
+     classes() {
+          return {
+               accordionContainer: {
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    padding: '1vmin'
+               },
+               accordionBody: {
+                    width: '90%',
+               },
+               accordion: {
+                    backgroundColor: '#C3C4CE',
+                    borderStyle: 'outset',
+                    borderRadius: '30px',
+                    borderColor: '#8C8E9C'
+               },
+               heading: {
+                    fontWeight: 'bold',
+                    width: '100%',
+                    textAlign: 'center'
+               },
+               accordionDetails: {
+                    margin: 0,
+                    padding: '0 0 2vmin 0'
+               },
+               form: {
+                    body: {
+                         margin: '1vmin',
+                         width: '99%',
+                         height: '99%',
+                         display: 'flex',
+                         flexDirection: 'column',
+                         justifyContent: 'center',
+                         alignItems: 'center'
+                    },
+                    commonInput: {
+                         margin: '1vmin'
+                    },
+                    backgroundColorWhite: {
+                         backgroundColor: 'white'
+                    },
+                    halfWidth: {
+                         display: 'flex',
+                         flexDirection: 'row',
+                         justifyContent: 'center'
+                    },
+                    button: {
+                         width: '50%'
+                    }
+               }
+          }
      }
 
      handleChange(event) {
@@ -26,26 +85,64 @@ class InputItem extends React.Component {
 
      addNewItem(event) {
           event.preventDefault();
+          console.log("agregado");
+          this.setState({
+               name: "",
+               price: 0,
+               quantity: 1
+          });
      }
 
      render() {
           return (
-               <div>
-                    <div>AGREGAR</div>
-                    <form onSubmit={this.addNewItem}>
-                         <input type="text" placeholder="nombre" value={this.state.name}
-                              name="name" onChange={this.handleChange} />
-                         <div>
-                              <input type="number" placeholder="precio" value={this.state.price}
-                                   name="price" onChange={this.handleChange} />
-                              <input type="cantidad" placeholder="cantidad" step="1" value={this.state.quantity}
-                                   name="quantity" onChange={this.handleChange} />
-                              <button>Ok</button>
-                         </div>
-                    </form>
+               <div style={this.classes().accordionContainer} >
+                    <div style={this.classes().accordionBody}>
+                         <Accordion style={this.classes().accordion}>
+                              <AccordionSummary
+                                   expandIcon={<ExpandMoreIcon />}
+                              >
+                                   <Typography style={this.classes().heading}>NUEVO ITEM</Typography>
+                              </AccordionSummary>
+                              <AccordionDetails style={this.classes().accordionDetails}> 
+                                   <form onSubmit={this.addNewItem} style={this.classes().form.body}>
+                                        <TextField label="Producto" variant="filled" size="small" required error={false} color='primary' fullWidth={true}
+                                             value={this.state.name} name="name" onChange={this.handleChange} style={this.classes().form.commonInput}  />
+                                        <div style={this.classes().form.halfWidth}>
+                                             <FormControl style={this.classes().form.commonInput}>
+                                                  <InputLabel htmlFor="productPrice">Precio</InputLabel>
+                                                  <FilledInput
+                                                       id="productPrice"
+                                                       variant="filled"
+                                                       type="number" value={this.state.price}
+                                                       name="price" onChange={this.handleChange}
+                                                       color='primary'
+                                                  />
+                                             </FormControl >
+                                             <FormControl style={this.classes().form.commonInput}>
+                                                  <InputLabel htmlFor="productQuantity">Cantidad</InputLabel>
+                                                  <FilledInput
+                                                       id="productQuantity"
+                                                       variant="filled"
+                                                       type="number" value={this.state.quantity}
+                                                       name="quantity" onChange={this.handleChange}
+                                                  />
+                                             </FormControl>
+                                        </div>
+                                        <Button
+                                             variant="contained"
+                                             color="primary"
+                                             startIcon={<AddIcon />}
+                                             size="small"
+                                             type="submit"
+                                             style={this.classes().form.button}
+                                        >
+                                             AGREGAR
+                                             </Button>
+                                   </form>
+                              </AccordionDetails>
+                         </Accordion>
+                    </div>
                </div>
-          )
+          );
      }
 }
-
-export default InputItem;
