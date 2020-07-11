@@ -85,6 +85,7 @@ export default class InputItem extends React.Component {
      addNewItem(event) {
           event.preventDefault();
           console.log("agregado");
+          this.props.addItem(this.state);
           this.setState({
                name: "",
                price: 0,

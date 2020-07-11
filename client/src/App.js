@@ -15,25 +15,31 @@ const useStyles = theme => ({
     margin: 0,
     padding: 0,
     paddingBottom: "9vh"
-   }
+  }
 });
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-          this.state = {
-               itemsLoaded: [],
-               itemsNotLoaded: [],
-               listName: "Nueva Lista",
-               accumulatedAmount: 0
-          };
+    this.state = {
+      itemsLoaded: [],
+      itemsNotLoaded: [],
+      listName: "Nueva Lista",
+      accumulatedAmount: 0
+    };
+    this.addItem = this.addItem.bind(this);
   }
+
+  addItem(item){
+    console.log(item);
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
-        <InputItem />
+        <InputItem addItem={this.addItem}/>
         <BottonBar />
       </Container>
     );
