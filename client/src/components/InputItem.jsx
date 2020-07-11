@@ -79,12 +79,12 @@ export default class InputItem extends React.Component {
      }
 
      handleChange(event) {
-          this.setState({ [event.target.name]: event.target.value });
+          let value = (event.target.name !== "name") ? Number(event.target.value) : event.target.value;
+          this.setState({ [event.target.name]: value});
      }
 
      addNewItem(event) {
           event.preventDefault();
-          console.log("agregado");
           this.props.addItem(this.state);
           this.setState({
                name: "",
@@ -98,9 +98,7 @@ export default class InputItem extends React.Component {
                <div style={this.classes().accordionContainer} >
                     <div style={this.classes().accordionBody}>
                          <Accordion style={this.classes().accordion}>
-                              <AccordionSummary
-                                   expandIcon={<ExpandMoreIcon />}
-                              >
+                              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                    <Typography style={this.classes().heading}>NUEVO ITEM</Typography>
                               </AccordionSummary>
                               <AccordionDetails style={this.classes().accordionDetails}> 
@@ -125,6 +123,7 @@ export default class InputItem extends React.Component {
                                                        variant="filled"
                                                        type="number" value={this.state.quantity}
                                                        name="quantity" onChange={this.handleChange}
+                                                       color='primary'
                                                   />
                                              </FormControl>
                                         </div>
