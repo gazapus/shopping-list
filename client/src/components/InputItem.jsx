@@ -28,13 +28,12 @@ export default class InputItem extends React.Component {
      classes() {
           return {
                accordionContainer: {
-                    width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
                     padding: '1vmin'
                },
                accordionBody: {
-                    width: '90%',
+                    width: '98%',
                },
                accordion: {
                     backgroundColor: '#C3C4CE',
