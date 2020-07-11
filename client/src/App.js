@@ -4,6 +4,7 @@ import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
+import InputItem from './components/InputItem';
 
 
 const useStyles = makeStyles({
@@ -23,6 +24,7 @@ function App() {
   return (
     <Container maxWidth="sm" classes={{ root: classes.root}}>
       <TopAppBar title="Nueva List" />
+      <InputItem/>
       <BottonBar />
     </Container>
   );
