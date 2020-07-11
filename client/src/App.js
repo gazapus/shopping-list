@@ -31,7 +31,14 @@ class App extends React.Component {
   }
 
   addItem(item){
-    console.log(item);
+    let itemsUpdated = this.state.itemsNotLoaded;
+    let newAmount = this.state.accumulatedAmount + (item.price * item.quantity);
+    itemsUpdated.push(item);
+    this.setState({
+      itemsNotLoaded: itemsUpdated,
+      accumulatedAmount: newAmount
+    });
+    console.log(this.state)
   }
 
   render() {
