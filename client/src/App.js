@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
 import { Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
 import InputItem from './components/InputItem';
 
-
-const useStyles = makeStyles({
+const useStyles = theme => ({
   root: {
     background: '#F7E4B4',
     borderRadius: 3,
@@ -19,15 +18,32 @@ const useStyles = makeStyles({
   }
 });
 
-function App() {
-  const classes = useStyles();
-  return (
-    <Container maxWidth="sm" classes={{ root: classes.root}}>
-      <TopAppBar title="Nueva List" />
-      <InputItem/>
-      <BottonBar />
-    </Container>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemsLoaded: [],
+      itemsNotLoaded: [],
+      listName: "Nueva Lista",
+      accumulatedAmount: 0
+    };
+    this.addItem = this.addItem.bind(this);
+  }
+
+  addItem(item){
+    console.log(item);
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <Container maxWidth="sm" className={classes.root}>
+        <TopAppBar title={this.state.listName} />
+        <InputItem addItem={this.addItem}/>
+        <BottonBar />
+      </Container>
+    );
+  }
 }
 
-export default App;
+export default withStyles(useStyles)(App)
