@@ -18,7 +18,8 @@ export default class InputItem extends React.Component {
           this.state = {
                name: "",
                price: 0,
-               quantity: 1
+               quantity: 1,
+               loaded: false
           };
           this.handleChange = this.handleChange.bind(this);
           this.addNewItem = this.addNewItem.bind(this);

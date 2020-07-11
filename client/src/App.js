@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
 import InputItem from './components/InputItem';
+import ListItems from './components/ListItems';
 
 const useStyles = theme => ({
   root: {
@@ -38,7 +39,6 @@ class App extends React.Component {
       itemsNotLoaded: itemsUpdated,
       accumulatedAmount: newAmount
     });
-    console.log(this.state)
   }
 
   render() {
@@ -47,6 +47,7 @@ class App extends React.Component {
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
         <InputItem addItem={this.addItem}/>
+        <ListItems items={this.state.itemsNotLoaded}/>
         <BottonBar />
       </Container>
     );
