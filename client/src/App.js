@@ -29,7 +29,7 @@ class App extends React.Component {
       accumulatedAmount: 0
     };
     this.addItem = this.addItem.bind(this);
-    this.handleChangeItem = this.handleChangeItem.bind(this);
+    this.handleLoadItem = this.handleLoadItem.bind(this);
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
   }
 
@@ -43,38 +43,26 @@ class App extends React.Component {
     });
   }
 
-  handleChangeItem(item) {
-    let itemsLoaded = this.state.itemsLoaded.slice();
-    let itemsNotLoaded = this.state.itemsNotLoaded.slice();
-    if (item.loaded) {
-      itemsLoaded.push(item);
-      let index = itemsNotLoaded.findIndex(itemNotLoaded => itemNotLoaded.name === item.name);
-      itemsNotLoaded.splice(index, 1);
-    } else {
-      itemsNotLoaded.push(item);
-      let index = itemsLoaded.findIndex(itemLoaded => itemLoaded.name === item.name);
-      itemsLoaded.splice(index, 1);
-    }
+  handleLoadItem(item) {
+    let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
+    let listWhereAddItem = (item.loaded) ? this.state.itemsNotLoaded.slice() : this.state.itemsLoaded.slice();
+    let indexToRemove = listWhereRemoveItem.findIndex(cursorItem => cursorItem.name === item.name);
+    listWhereRemoveItem.splice(indexToRemove, 1);
+    item.loaded = !item.loaded;
+    listWhereAddItem.push(item);
     this.setState({
-      itemsNotLoaded: itemsNotLoaded,
-      itemsLoaded: itemsLoaded
+      itemsNotLoaded: (item.loaded) ? listWhereRemoveItem : listWhereAddItem,
+      itemsLoaded: (item.loaded) ? listWhereAddItem : listWhereRemoveItem
     });
   }
 
-  
   handleDeleteItem(item){
-    let itemsLoaded = this.state.itemsLoaded.slice();
-    let itemsNotLoaded = this.state.itemsNotLoaded.slice();
-    if (item.loaded) {
-      let index = itemsLoaded.findIndex(itemLoaded => itemLoaded.name === item.name);
-      itemsLoaded.splice(index, 1);
-    } else {
-      let index = itemsNotLoaded.findIndex(itemNotLoaded => itemNotLoaded.name === item.name);
-      itemsNotLoaded.splice(index, 1);
-    }
+    let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
+    let indexToRemove = listWhereRemoveItem.findIndex(itemCursor => itemCursor.name === item.name);
+    listWhereRemoveItem.splice(indexToRemove, 1);
     this.setState({
-      itemsNotLoaded: itemsNotLoaded,
-      itemsLoaded: itemsLoaded
+      itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereRemoveItem,
+      itemsLoaded: (item.loaded) ? listWhereRemoveItem : this.state.itemsLoaded
     });
   }
 
@@ -86,13 +74,13 @@ class App extends React.Component {
         <InputItem addItem={this.addItem} />
         <ListItems 
           items={this.state.itemsNotLoaded}
-          handleChangeItem={this.handleChangeItem} 
+          handleLoadItem={this.handleLoadItem} 
           handleDeleteItem={this.handleDeleteItem} 
         />
         <hr/>
         <ListItems 
           items={this.state.itemsLoaded} 
-          handleChangeItem={this.handleChangeItem} 
+          handleLoadItem={this.handleLoadItem} 
           handleDeleteItem={this.handleDeleteItem} 
         />
         <BottonBar />

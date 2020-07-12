@@ -30,11 +30,8 @@ class Item extends React.Component {
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
     }
 
-    async handleCheckbox(e) {
-        await this.setState({
-            loaded: !this.state.loaded
-        });
-        this.props.handleChangeItem(this.state);
+    handleCheckbox(e) {
+        this.props.handleLoadItem(this.state);
     }
 
     async handleDeleteItem(e) {
@@ -60,8 +57,8 @@ class Item extends React.Component {
                     className={classes.noSpace}
                 />
                 <ListItemSecondaryAction >
-                    <IconButton edge="end" aria-label="delete" >
-                        <DeleteIcon onClick={this.handleDeleteItem} />
+                    <IconButton edge="end" aria-label="delete" onClick={this.handleDeleteItem} >
+                        <DeleteIcon  />
                     </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>

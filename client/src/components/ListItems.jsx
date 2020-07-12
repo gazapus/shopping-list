@@ -23,7 +23,7 @@ export default function ListItems(props) {
             quantity={item.quantity}
             loaded={item.loaded}
             key={item.name}
-            handleChangeItem={props.handleChangeItem}
+            handleLoadItem={props.handleLoadItem}
             handleDeleteItem={props.handleDeleteItem} 
           />
         );
