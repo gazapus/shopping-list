@@ -1,6 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -19,7 +17,6 @@ const useStyles = theme => ({
     }
 });
 
-
 class Item extends React.Component {
     constructor(props) {
         super(props);
@@ -30,18 +27,24 @@ class Item extends React.Component {
             loaded: props.loaded
         }
         this.handleCheckbox = this.handleCheckbox.bind(this);
+        this.handleDeleteItem = this.handleDeleteItem.bind(this);
     }
 
-    handleCheckbox(e) {
-        this.setState({
+    async handleCheckbox(e) {
+        await this.setState({
             loaded: !this.state.loaded
         });
+        this.props.handleChangeItem(this.state);
+    }
+
+    async handleDeleteItem(e) {
+        this.props.handleDeleteItem(this.state);
     }
 
     render() {
         const { classes } = this.props;
         return (
-            <ListItem key={this.state.name} role={undefined} button className={classes.noSpace}>
+            <ListItem key={this.props.key} role={undefined} button className={classes.noSpace}>
                 <ListItemIcon >
                     <Checkbox
                         edge="start"
@@ -58,7 +61,7 @@ class Item extends React.Component {
                 />
                 <ListItemSecondaryAction >
                     <IconButton edge="end" aria-label="delete" >
-                        <DeleteIcon />
+                        <DeleteIcon onClick={this.handleDeleteItem} />
                     </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>

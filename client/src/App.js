@@ -29,15 +29,52 @@ class App extends React.Component {
       accumulatedAmount: 0
     };
     this.addItem = this.addItem.bind(this);
+    this.handleChangeItem = this.handleChangeItem.bind(this);
+    this.handleDeleteItem = this.handleDeleteItem.bind(this);
   }
 
-  addItem(item){
-    let itemsUpdated = this.state.itemsNotLoaded;
-    let newAmount = this.state.accumulatedAmount + (item.price * item.quantity);
+  addItem(item) {
+    let itemsUpdated = this.state.itemsNotLoaded.slice();
     itemsUpdated.push(item);
+    let newAmount = this.state.accumulatedAmount + (item.price * item.quantity);
     this.setState({
       itemsNotLoaded: itemsUpdated,
       accumulatedAmount: newAmount
+    });
+  }
+
+  handleChangeItem(item) {
+    let itemsLoaded = this.state.itemsLoaded.slice();
+    let itemsNotLoaded = this.state.itemsNotLoaded.slice();
+    if (item.loaded) {
+      itemsLoaded.push(item);
+      let index = itemsNotLoaded.findIndex(itemNotLoaded => itemNotLoaded.name === item.name);
+      itemsNotLoaded.splice(index, 1);
+    } else {
+      itemsNotLoaded.push(item);
+      let index = itemsLoaded.findIndex(itemLoaded => itemLoaded.name === item.name);
+      itemsLoaded.splice(index, 1);
+    }
+    this.setState({
+      itemsNotLoaded: itemsNotLoaded,
+      itemsLoaded: itemsLoaded
+    });
+  }
+
+  
+  handleDeleteItem(item){
+    let itemsLoaded = this.state.itemsLoaded.slice();
+    let itemsNotLoaded = this.state.itemsNotLoaded.slice();
+    if (item.loaded) {
+      let index = itemsLoaded.findIndex(itemLoaded => itemLoaded.name === item.name);
+      itemsLoaded.splice(index, 1);
+    } else {
+      let index = itemsNotLoaded.findIndex(itemNotLoaded => itemNotLoaded.name === item.name);
+      itemsNotLoaded.splice(index, 1);
+    }
+    this.setState({
+      itemsNotLoaded: itemsNotLoaded,
+      itemsLoaded: itemsLoaded
     });
   }
 
@@ -46,8 +83,18 @@ class App extends React.Component {
     return (
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
-        <InputItem addItem={this.addItem}/>
-        <ListItems items={this.state.itemsNotLoaded}/>
+        <InputItem addItem={this.addItem} />
+        <ListItems 
+          items={this.state.itemsNotLoaded}
+          handleChangeItem={this.handleChangeItem} 
+          handleDeleteItem={this.handleDeleteItem} 
+        />
+        <hr/>
+        <ListItems 
+          items={this.state.itemsLoaded} 
+          handleChangeItem={this.handleChangeItem} 
+          handleDeleteItem={this.handleDeleteItem} 
+        />
         <BottonBar />
       </Container>
     );
