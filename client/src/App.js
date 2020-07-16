@@ -6,6 +6,7 @@ import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
 import InputItem from './components/InputItem';
 import ListItems from './components/ListItems';
+import ModalEditItem from './components/ModalEditItem';
 
 const useStyles = theme => ({
   root: {
@@ -83,6 +84,7 @@ class App extends React.Component {
           handleLoadItem={this.handleLoadItem} 
           handleDeleteItem={this.handleDeleteItem} 
         />
+        <ModalEditItem />
         <BottonBar />
       </Container>
     );
