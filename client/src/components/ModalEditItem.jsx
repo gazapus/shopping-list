@@ -50,10 +50,6 @@ export default function SimpleModal(props) {
         console.log("enviado")
     }
 
-    function handleChange(e) {
-        console.log("cambiado")
-    }
-
     return (
         <div>
             <button type="button" onClick={handleOpen}>
@@ -68,7 +64,7 @@ export default function SimpleModal(props) {
                         nameValue={name}
                         priceValue={price}
                         quantityValue={quantity}
-                        buttonText="Modificar" 
+                        title="Modificar Item"
                         handleSubmit={handleSubmit}
                         setName={setName} 
                         setPrice={setPrice}

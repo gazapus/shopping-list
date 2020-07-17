@@ -39,13 +39,13 @@ export default function FormItem(props) {
 
    function handleChange(event) {
        let value = event.target.name;
-        if (value == "name") {
+        if (value === "name") {
             return props.setName(event.target.value);
         }
-        if (value == "price") {
+        if (value === "price") {
             return props.setPrice(Number(event.target.value));
         }
-        if (value == "quantity") {
+        if (value === "quantity") {
             return props.setQuantity(Number(event.target.value));
         }
         
@@ -53,7 +53,7 @@ export default function FormItem(props) {
 
     return (
         <form className={classes.body} onSubmit={props.handleSubmit}>
-            <Typography>MODIFICAR ITEM</Typography>
+            <Typography>{props.title}</Typography>
             <TextField
                 label="Producto" variant="filled" size="small" required error={false} color='primary' fullWidth={true}
                 value={props.nameValue} name="name" className={classes.commonInput} onChange={handleChange}
@@ -88,7 +88,7 @@ export default function FormItem(props) {
                 type="submit"
                 className={classes.button}
             >
-                {props.buttonText}
+                Confirmar
             </Button>
         </form>
     );

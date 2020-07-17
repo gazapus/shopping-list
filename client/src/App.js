@@ -4,7 +4,7 @@ import { Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
-import InputItem from './components/InputItem';
+import InputItem from '././components/InputItem';
 import ListItems from './components/ListItems';
 import ModalEditItem from './components/ModalEditItem';
 
@@ -72,7 +72,9 @@ class App extends React.Component {
     return (
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
-        <InputItem addItem={this.addItem} />
+        <InputItem
+          addItem={this.addItem}  
+        />
         <ListItems 
           items={this.state.itemsNotLoaded}
           handleLoadItem={this.handleLoadItem} 
