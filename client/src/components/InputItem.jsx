@@ -8,7 +8,7 @@ import FormItem from './FormItem';
 
 export default function InputItem(props) {
 
-    const [name, setName] = React.useState("batata");
+    const [name, setName] = React.useState("");
     const [price, setPrice] = React.useState(0);
     const [quantity, setQuantity] = React.useState(1);
 
@@ -49,7 +49,7 @@ export default function InputItem(props) {
         props.addItem(item);
         setName("");
         setPrice(0);
-        setQuantity(0);
+        setQuantity(1);
     }
 
     return (

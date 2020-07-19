@@ -30,31 +30,30 @@ function getModalStyle() {
 export default function SimpleModal(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
-    const [name, setName] = React.useState("batata");
-    const [price, setPrice] = React.useState(0);
-    const [quantity, setQuantity] = React.useState(1);
-
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const [open, setOpen] = React.useState(true);
+    const [name, setName] = React.useState(props.item.name);
+    const [price, setPrice] = React.useState(props.item.price);
+    const [quantity, setQuantity] = React.useState(props.item.quantity);
 
     const handleClose = () => {
+        props.cancelEdition();
         setOpen(false);
     };
 
     function handleSubmit(e) {
         e.preventDefault();
+        let item = {
+            name: name,
+            price: price,
+            quantity: quantity,
+            loaded: props.item.loaded
+        }
+        props.editItem(item);
         handleClose();
-        console.log("enviado")
     }
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Open Modal
-            </button>
             <Modal
                 open={open}
                 onClose={handleClose}

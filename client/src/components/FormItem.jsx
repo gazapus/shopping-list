@@ -79,6 +79,7 @@ export default function FormItem(props) {
                         name="quantity"
                         onChange={handleChange}
                         color='primary'
+                        min="1"
                     />
                 </FormControl>
             </div>

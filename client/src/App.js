@@ -27,11 +27,16 @@ class App extends React.Component {
       itemsLoaded: [],
       itemsNotLoaded: [],
       listName: "Nueva Lista",
-      accumulatedAmount: 0
+      accumulatedAmount: 0,
+      itemToEdit: {}
     };
     this.addItem = this.addItem.bind(this);
     this.handleLoadItem = this.handleLoadItem.bind(this);
     this.handleDeleteItem = this.handleDeleteItem.bind(this);
+    this.openItemEdition = this.openItemEdition.bind(this);
+    this.editItem = this.editItem.bind(this);
+    this.cancelEdition = this.cancelEdition.bind(this);
+
   }
 
   addItem(item) {
@@ -57,7 +62,7 @@ class App extends React.Component {
     });
   }
 
-  handleDeleteItem(item){
+  handleDeleteItem(item) {
     let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let indexToRemove = listWhereRemoveItem.findIndex(itemCursor => itemCursor.name === item.name);
     listWhereRemoveItem.splice(indexToRemove, 1);
@@ -67,26 +72,55 @@ class App extends React.Component {
     });
   }
 
+  openItemEdition(item) {
+    this.setState({
+      itemToEdit: item
+    });
+  }
+
+  cancelEdition() {
+    this.setState({
+      itemToEdit: {}
+    });
+  }
+
+  editItem(item) {
+    console.log(item);
+    let listWhereEdit = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
+    let itemIndexToEdit = listWhereEdit.findIndex(itemCursor => itemCursor.name === this.state.itemToEdit.name);
+    listWhereEdit[itemIndexToEdit] = item;
+    this.setState({
+      itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereEdit,
+      itemsLoaded: (item.loaded) ? listWhereEdit : this.state.itemsLoaded,
+      itemToEdit: {},
+    });
+  }
+
   render() {
     const { classes } = this.props;
+    let editItem = "";
+    if (Object.keys(this.state.itemToEdit).length !== 0)
+      editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition}/>;
     return (
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
         <InputItem
-          addItem={this.addItem}  
+          addItem={this.addItem}
         />
-        <ListItems 
+        <ListItems
           items={this.state.itemsNotLoaded}
-          handleLoadItem={this.handleLoadItem} 
-          handleDeleteItem={this.handleDeleteItem} 
+          handleLoadItem={this.handleLoadItem}
+          handleDeleteItem={this.handleDeleteItem}
+          openItemEdition={this.openItemEdition}
         />
-        <hr/>
-        <ListItems 
-          items={this.state.itemsLoaded} 
-          handleLoadItem={this.handleLoadItem} 
-          handleDeleteItem={this.handleDeleteItem} 
+        <hr />
+        <ListItems
+          items={this.state.itemsLoaded}
+          handleLoadItem={this.handleLoadItem}
+          handleDeleteItem={this.handleDeleteItem}
+          openItemEdition={this.openItemEdition}
         />
-        <ModalEditItem />
+        {editItem}
         <BottonBar />
       </Container>
     );

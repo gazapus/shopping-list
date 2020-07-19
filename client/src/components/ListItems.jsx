@@ -25,6 +25,7 @@ export default function ListItems(props) {
             key={item.name}
             handleLoadItem={props.handleLoadItem}
             handleDeleteItem={props.handleDeleteItem} 
+            openItemEdition={props.openItemEdition}
           />
         );
       })}

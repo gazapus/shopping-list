@@ -6,64 +6,63 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = theme => ({
+const useStyles = makeStyles((theme) => ({
     noSpace: {
         marginTop: 0,
         paddingTop: 0,
         marginBottom: 0,
         paddingBottom: 0
     }
-});
+}));
 
-class Item extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: props.name,
-            price: props.price,
-            quantity: props.quantity,
-            loaded: props.loaded
-        }
-        this.handleCheckbox = this.handleCheckbox.bind(this);
-        this.handleDeleteItem = this.handleDeleteItem.bind(this);
+function Item(props) {
+
+    let item = {
+        name: props.name,
+        price: props.price,
+        quantity: props.quantity,
+        loaded: props.loaded
+    }
+    const classes = useStyles();
+
+    function handleCheckbox(e) {
+        props.handleLoadItem(item);
     }
 
-    handleCheckbox(e) {
-        this.props.handleLoadItem(this.state);
+    function handleDeleteItem(e) {
+        props.handleDeleteItem(item);
     }
 
-    async handleDeleteItem(e) {
-        this.props.handleDeleteItem(this.state);
+    function openItemEdition(e) {
+        props.openItemEdition(item);
     }
 
-    render() {
-        const { classes } = this.props;
-        return (
-            <ListItem key={this.props.key} role={undefined} button className={classes.noSpace}>
-                <ListItemIcon >
-                    <Checkbox
-                        edge="start"
-                        checked={this.state.loaded}
-                        tabIndex={-1}
-                        disableRipple
-                        onClick={this.handleCheckbox}
-                    />
-                </ListItemIcon>
-                <ListItemText
-                    primary={this.state.name}
-                    secondary={this.state.quantity + " x $" + this.state.price}
-                    className={classes.noSpace}
+    return (
+        <ListItem key={props.key} role={undefined} button className={classes.noSpace}>
+            <ListItemIcon >
+                <Checkbox
+                    edge="start"
+                    checked={props.loaded}
+                    tabIndex={-1}
+                    disableRipple
+                    onClick={handleCheckbox}
                 />
-                <ListItemSecondaryAction >
-                    <IconButton edge="end" aria-label="delete" onClick={this.handleDeleteItem} >
-                        <DeleteIcon  />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </ListItem>
-        );
-    }
+            </ListItemIcon>
+            <ListItemText
+                primary={props.name}
+                secondary={props.quantity + " x $" + props.price}
+                className={classes.noSpace}
+                onClick={openItemEdition}
+            />
+            <ListItemSecondaryAction >
+                <IconButton edge="end" aria-label="delete" onClick={handleDeleteItem} >
+                    <DeleteIcon />
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
+    );
 }
 
-export default withStyles(useStyles)(Item)
+export default Item;
