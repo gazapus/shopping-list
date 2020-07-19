@@ -68,6 +68,7 @@ export default function FormItem(props) {
                         name="price"
                         color='primary'
                         onChange={handleChange}
+                        step="0.1"
                     />
                 </FormControl >
                 <FormControl className={classes.commonInput}>
@@ -80,6 +81,7 @@ export default function FormItem(props) {
                         onChange={handleChange}
                         color='primary'
                         min="1"
+                        step="0.1"
                     />
                 </FormControl>
             </div>

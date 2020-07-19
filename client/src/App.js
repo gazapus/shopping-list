@@ -13,10 +13,10 @@ const useStyles = theme => ({
     background: '#F7E4B4',
     borderRadius: 3,
     border: 0,
-    height: '100vh',
+    minHeight: '100vh',
     margin: 0,
     padding: 0,
-    paddingBottom: "9vh"
+    paddingBottom: "10vh"
   }
 });
 
@@ -66,9 +66,11 @@ class App extends React.Component {
     let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let indexToRemove = listWhereRemoveItem.findIndex(itemCursor => itemCursor.name === item.name);
     listWhereRemoveItem.splice(indexToRemove, 1);
+    let newAmount = this.state.accumulatedAmount - (item.price * item.quantity);
     this.setState({
       itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereRemoveItem,
-      itemsLoaded: (item.loaded) ? listWhereRemoveItem : this.state.itemsLoaded
+      itemsLoaded: (item.loaded) ? listWhereRemoveItem : this.state.itemsLoaded,
+      accumulatedAmount: newAmount
     });
   }
 
@@ -85,13 +87,15 @@ class App extends React.Component {
   }
 
   editItem(item) {
-    console.log(item);
     let listWhereEdit = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let itemIndexToEdit = listWhereEdit.findIndex(itemCursor => itemCursor.name === this.state.itemToEdit.name);
     listWhereEdit[itemIndexToEdit] = item;
+    let difference = (item.price * item.quantity) - (this.state.itemToEdit.price * this.state.itemToEdit.quantity); 
+    let newAmount = this.state.accumulatedAmount + (difference);
     this.setState({
       itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereEdit,
       itemsLoaded: (item.loaded) ? listWhereEdit : this.state.itemsLoaded,
+      accumulatedAmount: newAmount,
       itemToEdit: {},
     });
   }
@@ -101,6 +105,10 @@ class App extends React.Component {
     let editItem = "";
     if (Object.keys(this.state.itemToEdit).length !== 0)
       editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition}/>;
+    let total = 0;
+    for(let itemLoaded of this.state.itemsLoaded) {
+      total += (itemLoaded.price * itemLoaded.quantity);
+    }
     return (
       <Container maxWidth="sm" className={classes.root}>
         <TopAppBar title={this.state.listName} />
@@ -121,7 +129,12 @@ class App extends React.Component {
           openItemEdition={this.openItemEdition}
         />
         {editItem}
-        <BottonBar />
+        <BottonBar 
+          estimatedAmount={this.state.accumulatedAmount}
+          itemsLoaded = {this.state.itemsLoaded.length}
+          totalOfItems = {this.state.itemsLoaded.length + this.state.itemsNotLoaded.length}
+          total = {total}
+        />
       </Container>
     );
   }
