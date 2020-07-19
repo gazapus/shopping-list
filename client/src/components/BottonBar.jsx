@@ -20,8 +20,9 @@ function TopAppBar(props) {
      return (
           <AppBar position="static" className={classes.toolbar}>
                <Toolbar className={classes.boxes}>
-                    <BoxText value={100}/>
-                    <BoxText value={0}/>
+                    <BoxText value={props.total}/>
+                    <small>estimado<br/>{props.estimatedAmount}</small>
+                    <BoxText value={props.itemsLoaded + "/" + props.totalOfItems}/>
                </Toolbar>
           </AppBar>
      );
