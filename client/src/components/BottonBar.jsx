@@ -2,7 +2,6 @@ import React from 'react';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BoxText from './BoxText';
-import '../BottonBar.css';
 
 const useStyles = makeStyles({
      toolbar: {

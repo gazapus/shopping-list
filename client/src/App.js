@@ -105,7 +105,7 @@ class App extends React.Component {
       ammountEstimated += (item.price * item.quantity);
     }
     return (
-      <Container maxWidth="sm" className={classes.root}>
+      <Container className={classes.root}>
         <TopAppBar title={this.state.listName} />
         <InputItem
           addItem={this.addItem}
