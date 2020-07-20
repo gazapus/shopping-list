@@ -1,0 +1,5 @@
+@media (max-height: 359px) {
+    #bottonBar {
+        display: none;
+    }
+}

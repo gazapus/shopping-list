@@ -27,7 +27,6 @@ class App extends React.Component {
       itemsLoaded: [],
       itemsNotLoaded: [],
       listName: "Nueva Lista",
-      accumulatedAmount: 0,
       itemToEdit: {}
     };
     this.addItem = this.addItem.bind(this);
@@ -36,16 +35,13 @@ class App extends React.Component {
     this.openItemEdition = this.openItemEdition.bind(this);
     this.editItem = this.editItem.bind(this);
     this.cancelEdition = this.cancelEdition.bind(this);
-
   }
 
   addItem(item) {
     let itemsUpdated = this.state.itemsNotLoaded.slice();
     itemsUpdated.push(item);
-    let newAmount = this.state.accumulatedAmount + (item.price * item.quantity);
     this.setState({
-      itemsNotLoaded: itemsUpdated,
-      accumulatedAmount: newAmount
+      itemsNotLoaded: itemsUpdated
     });
   }
 
@@ -66,11 +62,9 @@ class App extends React.Component {
     let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let indexToRemove = listWhereRemoveItem.findIndex(itemCursor => itemCursor.name === item.name);
     listWhereRemoveItem.splice(indexToRemove, 1);
-    let newAmount = this.state.accumulatedAmount - (item.price * item.quantity);
     this.setState({
       itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereRemoveItem,
-      itemsLoaded: (item.loaded) ? listWhereRemoveItem : this.state.itemsLoaded,
-      accumulatedAmount: newAmount
+      itemsLoaded: (item.loaded) ? listWhereRemoveItem : this.state.itemsLoaded
     });
   }
 
@@ -90,12 +84,9 @@ class App extends React.Component {
     let listWhereEdit = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let itemIndexToEdit = listWhereEdit.findIndex(itemCursor => itemCursor.name === this.state.itemToEdit.name);
     listWhereEdit[itemIndexToEdit] = item;
-    let difference = (item.price * item.quantity) - (this.state.itemToEdit.price * this.state.itemToEdit.quantity); 
-    let newAmount = this.state.accumulatedAmount + (difference);
     this.setState({
       itemsNotLoaded: (item.loaded) ? this.state.itemsNotLoaded : listWhereEdit,
       itemsLoaded: (item.loaded) ? listWhereEdit : this.state.itemsLoaded,
-      accumulatedAmount: newAmount,
       itemToEdit: {},
     });
   }
@@ -108,6 +99,10 @@ class App extends React.Component {
     let total = 0;
     for(let itemLoaded of this.state.itemsLoaded) {
       total += (itemLoaded.price * itemLoaded.quantity);
+    }
+    let ammountEstimated = 0;
+    for(let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)){
+      ammountEstimated += (item.price * item.quantity);
     }
     return (
       <Container maxWidth="sm" className={classes.root}>
@@ -130,7 +125,7 @@ class App extends React.Component {
         />
         {editItem}
         <BottonBar 
-          estimatedAmount={this.state.accumulatedAmount}
+          estimatedAmount={ammountEstimated}
           itemsLoaded = {this.state.itemsLoaded.length}
           totalOfItems = {this.state.itemsLoaded.length + this.state.itemsNotLoaded.length}
           total = {total}
