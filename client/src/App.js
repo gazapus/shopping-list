@@ -105,12 +105,13 @@ class App extends React.Component {
       ammountEstimated += (item.price * item.quantity);
     }
     return (
-      <Container className={classes.root}>
+      <Container className={classes.root} maxWidth={false}>
         <TopAppBar title={this.state.listName} />
         <InputItem
           addItem={this.addItem}
         />
         <ListItems
+          title={"Items"}
           items={this.state.itemsNotLoaded}
           handleLoadItem={this.handleLoadItem}
           handleDeleteItem={this.handleDeleteItem}
@@ -118,13 +119,14 @@ class App extends React.Component {
         />
         <hr />
         <ListItems
+          title={"Listos"}
           items={this.state.itemsLoaded}
           handleLoadItem={this.handleLoadItem}
           handleDeleteItem={this.handleDeleteItem}
           openItemEdition={this.openItemEdition}
         />
         {editItem}
-        <BottonBar 
+      <BottonBar 
           estimatedAmount={ammountEstimated}
           itemsLoaded = {this.state.itemsLoaded.length}
           totalOfItems = {this.state.itemsLoaded.length + this.state.itemsNotLoaded.length}

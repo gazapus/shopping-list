@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: 0,
         marginBottom: 0,
         paddingBottom: 0
+    },
+    item: {
+        backgroundColor: 'white'
     }
 }));
 
@@ -40,7 +43,7 @@ function Item(props) {
     }
 
     return (
-        <ListItem key={props.key} role={undefined} button className={classes.noSpace}>
+        <ListItem role={undefined} button className={[classes.noSpace, classes.item].join(' ')}>
             <ListItemIcon >
                 <Checkbox
                     edge="start"

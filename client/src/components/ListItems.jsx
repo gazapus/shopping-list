@@ -1,34 +1,48 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
+import {Typography } from '@material-ui/core';
 import Item from './Item';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    padding: 0,
+    maxWidth: '600px',
+  },
+  listContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
   }
 }));
 
 export default function ListItems(props) {
   const classes = useStyles();
-
+  let title = (props.items.length !== 0) ? <Typography variant="h6">{props.title}</Typography> : '';
   return (
-    <List className={classes.root}>
-      {props.items.map((item) => {
-        return (
-          <Item
-            name={item.name}
-            price={item.price}
-            quantity={item.quantity}
-            loaded={item.loaded}
-            key={item.name}
-            handleLoadItem={props.handleLoadItem}
-            handleDeleteItem={props.handleDeleteItem} 
-            openItemEdition={props.openItemEdition}
-          />
-        );
-      })}
-    </List>
+    <div className={classes.listContainer}>
+      {title}
+      <List className={classes.root}>
+        {props.items.map((item, index) => {
+          return (
+            <Item
+              name={item.name}
+              price={item.price}
+              quantity={item.quantity}
+              loaded={item.loaded}
+              key={index}
+              handleLoadItem={props.handleLoadItem}
+              handleDeleteItem={props.handleDeleteItem}
+              openItemEdition={props.openItemEdition}
+            />
+          );
+        })}
+      </List>
+    </div>
+
   );
 }
