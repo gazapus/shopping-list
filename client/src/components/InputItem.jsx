@@ -16,16 +16,18 @@ export default function InputItem(props) {
         accordionContainer: {
             display: 'flex',
             justifyContent: 'center',
-            padding: '1vmin'
+            padding: '1vmin',
+            margin: '1vmax'
         },
         accordionBody: {
             width: '98%',
+            maxWidth: '500px'
         },
         accordion: {
-            backgroundColor: '#C3C4CE',
-            borderStyle: 'outset',
+            backgroundColor: '#D1A8F6',
+            borderStyle: 'solid',
             borderRadius: '30px',
-            borderColor: '#8C8E9C'
+            borderColor: '#40116C'
         },
         heading: {
             fontWeight: 'bold',

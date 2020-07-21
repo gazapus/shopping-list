@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center'
     },
     commonInput: {
-        margin: '1vmin'
+        margin: '1vmin',
+        width: '100%'
     },
     backgroundColorWhite: {
         backgroundColor: 'white'
@@ -37,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
 export default function FormItem(props) {
     const classes = useStyles();
 
-   function handleChange(event) {
-       let value = event.target.name;
-        if (value === "name") {
+    function handleChange(event) {
+        let value = event.target.name;
+        if (value === "productName") {
             return props.setName(event.target.value);
         }
         if (value === "price") {
@@ -48,15 +49,19 @@ export default function FormItem(props) {
         if (value === "quantity") {
             return props.setQuantity(Number(event.target.value));
         }
-        
-   }
+
+    }
+
+    function select(e){
+        e.target.select();
+    }
 
     return (
         <form className={classes.body} onSubmit={props.handleSubmit}>
             <Typography>{props.title}</Typography>
             <TextField
-                label="Producto" variant="filled" size="small" required error={false} color='primary' fullWidth={true}
-                value={props.nameValue} name="name" className={classes.commonInput} onChange={handleChange}
+                label="Producto" variant="filled" size="small" required error={false} color='primary'
+                value={props.nameValue} name="productName" className={classes.commonInput} onChange={handleChange}
             />
             <div className={classes.halfWidth}>
                 <FormControl className={classes.commonInput}>
@@ -68,7 +73,11 @@ export default function FormItem(props) {
                         name="price"
                         color='primary'
                         onChange={handleChange}
-                        step="0.1"
+                        inputProps={{
+                            min: 0,
+                            step: 0.1
+                        }}
+                        onClick={select}
                     />
                 </FormControl >
                 <FormControl className={classes.commonInput}>
@@ -80,8 +89,11 @@ export default function FormItem(props) {
                         name="quantity"
                         onChange={handleChange}
                         color='primary'
-                        min="1"
-                        step="0.1"
+                        inputProps={{
+                            min: 1,
+                            step: 0.1
+                        }}
+                        onClick={select}
                     />
                 </FormControl>
             </div>

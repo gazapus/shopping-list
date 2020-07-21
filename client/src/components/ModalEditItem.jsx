@@ -7,13 +7,17 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         position: 'absolute',
         width: '99%',
+        maxWidth: '500px',
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #000',
         boxShadow: theme.shadows[5],
         borderRadius: '5px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#F1C17F',
+        paddingTop: '2vmin',
+        paddingBottom: '2vmin'
     }
 }));
 

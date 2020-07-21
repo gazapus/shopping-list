@@ -10,7 +10,7 @@ import ModalEditItem from './components/ModalEditItem';
 
 const useStyles = theme => ({
   root: {
-    background: '#F7E4B4',
+    background: '#FFF1DB',
     borderRadius: 3,
     border: 0,
     minHeight: '100vh',
