@@ -41,8 +41,8 @@ class App extends React.Component {
       itemToEdit: {}
     };
     this.addItem = this.addItem.bind(this);
-    this.handleLoadItem = this.handleLoadItem.bind(this);
-    this.handleDeleteItem = this.handleDeleteItem.bind(this);
+    this.loadItem = this.loadItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
     this.openItemEdition = this.openItemEdition.bind(this);
     this.editItem = this.editItem.bind(this);
     this.cancelEdition = this.cancelEdition.bind(this);
@@ -56,7 +56,7 @@ class App extends React.Component {
     });
   }
 
-  handleLoadItem(item) {
+  loadItem(item) {
     let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let listWhereAddItem = (item.loaded) ? this.state.itemsNotLoaded.slice() : this.state.itemsLoaded.slice();
     let indexToRemove = listWhereRemoveItem.findIndex(cursorItem => cursorItem.name === item.name);
@@ -69,7 +69,7 @@ class App extends React.Component {
     });
   }
 
-  handleDeleteItem(item) {
+  deleteItem(item) {
     let listWhereRemoveItem = (item.loaded) ? this.state.itemsLoaded.slice() : this.state.itemsNotLoaded.slice();
     let indexToRemove = listWhereRemoveItem.findIndex(itemCursor => itemCursor.name === item.name);
     listWhereRemoveItem.splice(indexToRemove, 1);
@@ -125,16 +125,16 @@ class App extends React.Component {
           <ListItems
             title={"Items"}
             items={this.state.itemsNotLoaded}
-            handleLoadItem={this.handleLoadItem}
-            handleDeleteItem={this.handleDeleteItem}
+            loadItem={this.loadItem}
+            deleteItem={this.deleteItem}
             openItemEdition={this.openItemEdition}
           />
           <Divider light={true} variant='middle' />
           <ListItems
             title={"Listos"}
             items={this.state.itemsLoaded}
-            handleLoadItem={this.handleLoadItem}
-            handleDeleteItem={this.handleDeleteItem}
+            loadItem={this.loadItem}
+            deleteItem={this.deleteItem}
             openItemEdition={this.openItemEdition}
           />
           {editItem}

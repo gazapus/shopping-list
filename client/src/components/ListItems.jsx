@@ -35,8 +35,8 @@ export default function ListItems(props) {
               quantity={item.quantity}
               loaded={item.loaded}
               key={index}
-              handleLoadItem={props.handleLoadItem}
-              handleDeleteItem={props.handleDeleteItem}
+              loadItem={props.loadItem}
+              deleteItem={props.deleteItem}
               openItemEdition={props.openItemEdition}
             />
           );

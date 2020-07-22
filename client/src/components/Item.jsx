@@ -38,11 +38,11 @@ function Item(props) {
     const classes = useStyles();
 
     function handleCheckbox(e) {
-        props.handleLoadItem(item);
+        props.loadItem(item);
     }
 
-    function handleDeleteItem(e) {
-        props.handleDeleteItem(item);
+    function deleteItem(e) {
+        props.deleteItem(item);
     }
 
     function openItemEdition(e) {
@@ -67,7 +67,7 @@ function Item(props) {
                 onClick={openItemEdition}
             />
             <ListItemSecondaryAction >
-                <IconButton edge="end" aria-label="delete" onClick={handleDeleteItem} >
+                <IconButton edge="end" aria-label="delete" onClick={deleteItem} >
                     <DeleteIcon />
                 </IconButton>
             </ListItemSecondaryAction>
