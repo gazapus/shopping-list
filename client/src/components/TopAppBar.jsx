@@ -3,6 +3,9 @@ import { AppBar, Toolbar, IconButton, Typography, Button, Menu, MenuItem } from 
 import { makeStyles } from '@material-ui/core/styles';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MenuIcon from '@material-ui/icons/Menu';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import SaveIcon from '@material-ui/icons/Save';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles({
      title: {
@@ -28,6 +31,23 @@ function TopAppBar(props) {
           setAnchorEl(null);
      };
 
+     const openList = () =>{
+          props.isOpening(true);
+          props.onOpen();
+          handleClose()
+     }
+
+     const saveList = () =>{
+          props.isOpening(false);
+          props.onOpen();
+          handleClose()
+     }
+
+     const deleteList = () =>{
+          props.openDeleteDialog();
+          handleClose()
+     }
+
      return (
           <AppBar position="static" className={classes.appBar}>
                <Toolbar className={classes.toolbar}>
@@ -47,10 +67,9 @@ function TopAppBar(props) {
                          open={Boolean(anchorEl)}
                          onClose={handleClose}
                     >
-                         <MenuItem onClick={handleClose}>Nueva</MenuItem>
-                         <MenuItem onClick={handleClose}>Guardar</MenuItem>
-                         <MenuItem onClick={handleClose}>Abrir</MenuItem>
-                         <MenuItem onClick={handleClose}>Eliminar</MenuItem>
+                         <MenuItem onClick={openList}><ImportContactsIcon/>&nbsp; Abrir</MenuItem>
+                         <MenuItem onClick={saveList}><SaveIcon/>&nbsp; Guardar</MenuItem>
+                         <MenuItem onClick={deleteList}><HighlightOffIcon/>&nbsp; Eliminar</MenuItem>
                     </Menu>
                </Toolbar>
           </AppBar>

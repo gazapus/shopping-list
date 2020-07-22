@@ -7,6 +7,8 @@ import BottonBar from './components/BottonBar';
 import InputItem from '././components/InputItem';
 import ListItems from './components/ListItems';
 import ModalEditItem from './components/ModalEditItem';
+import ModalPersistance from './components/ModalPersistance';
+import DeleteDialog from './components/DeleteDialog';
 import Divider from '@material-ui/core/Divider';
 import texture from './images/texture.jpg'
 
@@ -37,8 +39,11 @@ class App extends React.Component {
     this.state = {
       itemsLoaded: [],
       itemsNotLoaded: [],
-      listName: "Mi Lista de Compras",
-      itemToEdit: {}
+      listName: "",
+      itemToEdit: {},
+      inputListName: false,
+      isOpeningAList: false,
+      isOpenDeleteDialog: false
     };
     this.addItem = this.addItem.bind(this);
     this.loadItem = this.loadItem.bind(this);
@@ -46,6 +51,12 @@ class App extends React.Component {
     this.openItemEdition = this.openItemEdition.bind(this);
     this.editItem = this.editItem.bind(this);
     this.cancelEdition = this.cancelEdition.bind(this);
+    this.openInputListName = this.openInputListName.bind(this);
+    this.cancelInputListName = this.cancelInputListName.bind(this);
+    this.setListName = this.setListName.bind(this);
+    this.setIsOpeningAList = this.setIsOpeningAList.bind(this);
+    this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
   addItem(item) {
@@ -102,6 +113,50 @@ class App extends React.Component {
     });
   }
 
+  setIsOpeningAList(isOpening) {
+    this.setState({
+      isOpeningAList: isOpening
+    });
+  }
+
+  openInputListName() {
+    this.setState({
+      inputListName: true
+    });
+  }
+
+  cancelInputListName(){
+    this.setState({
+      inputListName: false
+    });
+  }
+
+  setListName(name){
+    if(this.state.isOpeningAList) {
+      console.log("abriendo lista")
+    } else {
+      console.log("guardando lista")
+    }
+    this.setState({
+      listName: name
+    });
+  }
+
+  toggleDeleteDialog() {
+    this.setState({
+      isOpenDeleteDialog: !this.state.isOpenDeleteDialog
+    });
+  }
+
+  confirmDelete(confirmDelete) {
+    if(confirmDelete){
+      console.log("eliminado");
+    } else {
+      console.log("no eliminado")
+    }
+    this.toggleDeleteDialog();
+  }
+
   render() {
     const { classes } = this.props;
     let editItem = "";
@@ -115,10 +170,23 @@ class App extends React.Component {
     for (let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)) {
       ammountEstimated += (item.price * item.quantity);
     }
+    let persistanceModal = "";
+    if(this.state.inputListName){
+      persistanceModal = <ModalPersistance 
+        listName={this.state.listName}
+        cancelInputListName={this.cancelInputListName}
+        setListName = {this.setListName}
+      />
+    }
     return (
       <div className={classes.container}>
         <Container className={classes.root} maxWidth={'md'}>
-          <TopAppBar title={this.state.listName} />
+          <TopAppBar 
+            title={(this.state.listName === "") ? "Mi Lista de Compras" : this.state.listName} 
+            onOpen={this.openInputListName}
+            isOpening={this.setIsOpeningAList}
+            openDeleteDialog={this.toggleDeleteDialog}
+          />
           <InputItem
             addItem={this.addItem}
           />
@@ -138,6 +206,11 @@ class App extends React.Component {
             openItemEdition={this.openItemEdition}
           />
           {editItem}
+          {persistanceModal}
+          <DeleteDialog 
+            confirmDelete={this.confirmDelete} 
+            isOpen={this.state.isOpenDeleteDialog}
+          />
           <BottonBar
             estimatedAmount={ammountEstimated}
             itemsLoaded={this.state.itemsLoaded.length}
