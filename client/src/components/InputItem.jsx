@@ -24,10 +24,11 @@ export default function InputItem(props) {
             maxWidth: '500px'
         },
         accordion: {
-            backgroundColor: '#D1A8F6',
+            backgroundColor: '#FFA454',
             borderStyle: 'solid',
             borderRadius: '30px',
-            borderColor: '#40116C'
+            borderColor: '#954600',
+            borderWidth: '4px'
         },
         heading: {
             fontWeight: 'bold',
@@ -59,7 +60,7 @@ export default function InputItem(props) {
             <div style={classes.accordionBody}>
                 <Accordion style={classes.accordion}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography style={classes.heading}>NUEVO ITEM</Typography>
+                        <Typography style={classes.heading}>AGREGAR ITEM</Typography>
                     </AccordionSummary>
                     <AccordionDetails style={classes.accordionDetails}>
                         <FormItem

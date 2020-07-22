@@ -1,22 +1,33 @@
 import React from 'react';
 import './App.css';
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
 import InputItem from '././components/InputItem';
 import ListItems from './components/ListItems';
 import ModalEditItem from './components/ModalEditItem';
+import Divider from '@material-ui/core/Divider';
+import texture from './images/texture.jpg'
 
 const useStyles = theme => ({
   root: {
-    background: '#FFF1DB',
+    backgroundColor: '#FFF1DB',
+    backgroundImage: 'url("https://www.transparenttextures.com/patterns/lined-paper-2.png")',
     borderRadius: 3,
     border: 0,
     minHeight: '100vh',
     margin: 0,
     padding: 0,
-    paddingBottom: "10vh"
+    paddingBottom: "10vh",
+    boxShadow: '-9px 4px 20px -7px rgba(0,0,0,0.75)'
+  },
+  container: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundImage: `url(${texture})`,
+    backgroundRepeat:'repeat'
   }
 });
 
@@ -26,7 +37,7 @@ class App extends React.Component {
     this.state = {
       itemsLoaded: [],
       itemsNotLoaded: [],
-      listName: "Nueva Lista",
+      listName: "Mi Lista de Compras",
       itemToEdit: {}
     };
     this.addItem = this.addItem.bind(this);
@@ -95,44 +106,46 @@ class App extends React.Component {
     const { classes } = this.props;
     let editItem = "";
     if (Object.keys(this.state.itemToEdit).length !== 0)
-      editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition}/>;
+      editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition} />;
     let total = 0;
-    for(let itemLoaded of this.state.itemsLoaded) {
+    for (let itemLoaded of this.state.itemsLoaded) {
       total += (itemLoaded.price * itemLoaded.quantity);
     }
     let ammountEstimated = 0;
-    for(let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)){
+    for (let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)) {
       ammountEstimated += (item.price * item.quantity);
     }
     return (
-      <Container className={classes.root} maxWidth={false}>
-        <TopAppBar title={this.state.listName} />
-        <InputItem
-          addItem={this.addItem}
-        />
-        <ListItems
-          title={"Items"}
-          items={this.state.itemsNotLoaded}
-          handleLoadItem={this.handleLoadItem}
-          handleDeleteItem={this.handleDeleteItem}
-          openItemEdition={this.openItemEdition}
-        />
-        <hr />
-        <ListItems
-          title={"Listos"}
-          items={this.state.itemsLoaded}
-          handleLoadItem={this.handleLoadItem}
-          handleDeleteItem={this.handleDeleteItem}
-          openItemEdition={this.openItemEdition}
-        />
-        {editItem}
-      <BottonBar 
-          estimatedAmount={ammountEstimated}
-          itemsLoaded = {this.state.itemsLoaded.length}
-          totalOfItems = {this.state.itemsLoaded.length + this.state.itemsNotLoaded.length}
-          total = {total}
-        />
-      </Container>
+      <div className={classes.container}>
+        <Container className={classes.root} maxWidth={'md'}>
+          <TopAppBar title={this.state.listName} />
+          <InputItem
+            addItem={this.addItem}
+          />
+          <ListItems
+            title={"Items"}
+            items={this.state.itemsNotLoaded}
+            handleLoadItem={this.handleLoadItem}
+            handleDeleteItem={this.handleDeleteItem}
+            openItemEdition={this.openItemEdition}
+          />
+          <Divider light={true} variant='middle' />
+          <ListItems
+            title={"Listos"}
+            items={this.state.itemsLoaded}
+            handleLoadItem={this.handleLoadItem}
+            handleDeleteItem={this.handleDeleteItem}
+            openItemEdition={this.openItemEdition}
+          />
+          {editItem}
+          <BottonBar
+            estimatedAmount={ammountEstimated}
+            itemsLoaded={this.state.itemsLoaded.length}
+            totalOfItems={this.state.itemsLoaded.length + this.state.itemsNotLoaded.length}
+            total={total}
+          />
+        </Container>
+      </div>
     );
   }
 }

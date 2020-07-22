@@ -10,12 +10,13 @@ const stylesBox = {
      boxContainer: {
           padding: "1vmin",
           background: 'grey',
-          minWidth: "20vw",
+          minWidth: "5em",
+          maxWidth: "30%",
           height: '5vh',
           borderStyle: 'solid',
           borderWidth: 2,
           borderColor: 'black',
-          borderRadius: '5px',
+          borderRadius: '5px'
      },
      boxSubContainer: {
           height: '100%',

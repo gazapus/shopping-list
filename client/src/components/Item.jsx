@@ -15,8 +15,15 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 0,
         paddingBottom: 0
     },
-    item: {
-        backgroundColor: 'white'
+    itemUnloaded: {
+        backgroundColor: 'rgba(255, 255, 255, 0.952)'
+    },
+    itemLoaded: {
+        backgroundColor: '#B1F1A9'
+    },
+    itemText: {
+        maxWidth: '75%',
+        overflow: 'hidden'
     }
 }));
 
@@ -43,7 +50,7 @@ function Item(props) {
     }
 
     return (
-        <ListItem role={undefined} button className={[classes.noSpace, classes.item].join(' ')}>
+        <ListItem role={undefined} button className={[classes.noSpace, ((props.loaded) ? classes.itemLoaded: classes.itemUnloaded)].join(' ')}>
             <ListItemIcon >
                 <Checkbox
                     edge="start"
@@ -56,7 +63,7 @@ function Item(props) {
             <ListItemText
                 primary={props.name}
                 secondary={props.quantity + " x $" + props.price}
-                className={classes.noSpace}
+                className={[classes.noSpace, classes.itemText].join(' ')}
                 onClick={openItemEdition}
             />
             <ListItemSecondaryAction >

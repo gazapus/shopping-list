@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     padding: 0,
-    maxWidth: '600px',
+    maxWidth: '700px',
   },
   listContainer: {
     width: '100%',

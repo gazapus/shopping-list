@@ -3,9 +3,3 @@ body {
      padding: 0;
      width: 100%;
 }
-
-@media (max-height: 359px) {
-     #bottonBar {
-         display: none;
-     }
- }

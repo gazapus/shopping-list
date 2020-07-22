@@ -62,6 +62,9 @@ export default function FormItem(props) {
             <TextField
                 label="Producto" variant="filled" size="small" required error={false} color='primary'
                 value={props.nameValue} name="productName" className={classes.commonInput} onChange={handleChange}
+                inputProps={{
+                    maxLength: 40
+                }}
             />
             <div className={classes.halfWidth}>
                 <FormControl className={classes.commonInput}>
