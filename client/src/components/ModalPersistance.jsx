@@ -45,7 +45,7 @@ function getModalStyle() {
 export default function ModalPersistance(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(props.open);
     const [listName, setListName] = React.useState(props.listName);
 
     const handleClose = () => {
@@ -66,7 +66,7 @@ export default function ModalPersistance(props) {
     return (
         <div>
             <Modal
-                open={open}
+                open={props.open}
                 onClose={handleClose}
             >
                 <div style={modalStyle} className={classes.paper}>

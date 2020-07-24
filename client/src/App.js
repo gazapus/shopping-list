@@ -160,8 +160,9 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     let editItem = "";
-    if (Object.keys(this.state.itemToEdit).length !== 0)
+    if (Object.keys(this.state.itemToEdit).length !== 0) {
       editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition} />;
+    }
     let total = 0;
     for (let itemLoaded of this.state.itemsLoaded) {
       total += (itemLoaded.price * itemLoaded.quantity);
@@ -170,14 +171,7 @@ class App extends React.Component {
     for (let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)) {
       ammountEstimated += (item.price * item.quantity);
     }
-    let persistanceModal = "";
-    if(this.state.inputListName){
-      persistanceModal = <ModalPersistance 
-        listName={this.state.listName}
-        cancelInputListName={this.cancelInputListName}
-        setListName = {this.setListName}
-      />
-    }
+    
     return (
       <div className={classes.container}>
         <Container className={classes.root} maxWidth={'md'}>
@@ -206,10 +200,15 @@ class App extends React.Component {
             openItemEdition={this.openItemEdition}
           />
           {editItem}
-          {persistanceModal}
           <DeleteDialog 
             confirmDelete={this.confirmDelete} 
             isOpen={this.state.isOpenDeleteDialog}
+          />
+          <ModalPersistance 
+            listName={this.state.listName}
+            cancelInputListName={this.cancelInputListName}
+            setListName = {this.setListName}
+            open={this.state.inputListName}
           />
           <BottonBar
             estimatedAmount={ammountEstimated}
