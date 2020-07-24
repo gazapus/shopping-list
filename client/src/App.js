@@ -50,8 +50,7 @@ class App extends React.Component {
     this.deleteItem = this.deleteItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.toggleItemEdition = this.toggleItemEdition.bind(this);
-    this.openInputListName = this.openInputListName.bind(this);
-    this.cancelInputListName = this.cancelInputListName.bind(this);
+    this.toggleInputListName = this.toggleInputListName.bind(this);
     this.setListName = this.setListName.bind(this);
     this.setIsOpeningAList = this.setIsOpeningAList.bind(this);
     this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
@@ -112,15 +111,9 @@ class App extends React.Component {
     });
   }
 
-  openInputListName() {
+  toggleInputListName() {
     this.setState({
-      inputListName: true
-    });
-  }
-
-  cancelInputListName() {
-    this.setState({
-      inputListName: false
+      inputListName: !this.state.inputListName
     });
   }
 
@@ -173,7 +166,7 @@ class App extends React.Component {
         <Container className={classes.root} maxWidth={'md'}>
           <TopAppBar
             title={(this.state.listName === "") ? "Mi Lista de Compras" : this.state.listName}
-            onOpen={this.openInputListName}
+            onOpen={this.toggleInputListName}
             isOpening={this.setIsOpeningAList}
             openDeleteDialog={this.toggleDeleteDialog}
           />
@@ -202,7 +195,7 @@ class App extends React.Component {
           />
           <ModalPersistance
             listName={this.state.listName}
-            cancelInputListName={this.cancelInputListName}
+            cancelInputListName={this.toggleInputListName}
             setListName={this.setListName}
             open={this.state.inputListName}
           />
