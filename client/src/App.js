@@ -29,7 +29,7 @@ const useStyles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     backgroundImage: `url(${texture})`,
-    backgroundRepeat:'repeat'
+    backgroundRepeat: 'repeat'
   }
 });
 
@@ -48,9 +48,8 @@ class App extends React.Component {
     this.addItem = this.addItem.bind(this);
     this.loadItem = this.loadItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
-    this.openItemEdition = this.openItemEdition.bind(this);
     this.editItem = this.editItem.bind(this);
-    this.cancelEdition = this.cancelEdition.bind(this);
+    this.toggleItemEdition = this.toggleItemEdition.bind(this);
     this.openInputListName = this.openInputListName.bind(this);
     this.cancelInputListName = this.cancelInputListName.bind(this);
     this.setListName = this.setListName.bind(this);
@@ -90,15 +89,9 @@ class App extends React.Component {
     });
   }
 
-  openItemEdition(item) {
+  toggleItemEdition(item = {}) {
     this.setState({
       itemToEdit: item
-    });
-  }
-
-  cancelEdition() {
-    this.setState({
-      itemToEdit: {}
     });
   }
 
@@ -125,14 +118,14 @@ class App extends React.Component {
     });
   }
 
-  cancelInputListName(){
+  cancelInputListName() {
     this.setState({
       inputListName: false
     });
   }
 
-  setListName(name){
-    if(this.state.isOpeningAList) {
+  setListName(name) {
+    if (this.state.isOpeningAList) {
       console.log("abriendo lista")
     } else {
       console.log("guardando lista")
@@ -149,7 +142,7 @@ class App extends React.Component {
   }
 
   confirmDelete(confirmDelete) {
-    if(confirmDelete){
+    if (confirmDelete) {
       console.log("eliminado");
     } else {
       console.log("no eliminado")
@@ -159,10 +152,6 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let editItem = "";
-    if (Object.keys(this.state.itemToEdit).length !== 0) {
-      editItem = <ModalEditItem item={this.state.itemToEdit} editItem={this.editItem} cancelEdition={this.cancelEdition} />;
-    }
     let total = 0;
     for (let itemLoaded of this.state.itemsLoaded) {
       total += (itemLoaded.price * itemLoaded.quantity);
@@ -171,12 +160,19 @@ class App extends React.Component {
     for (let item of this.state.itemsLoaded.concat(this.state.itemsNotLoaded)) {
       ammountEstimated += (item.price * item.quantity);
     }
-    
+    let editItem = "";
+    if(Object.keys(this.state.itemToEdit).length !== 0) {
+      editItem = <ModalEditItem
+      item={this.state.itemToEdit}
+      editItem={this.editItem}
+      cancelEdition={this.toggleItemEdition}
+    />
+    }
     return (
       <div className={classes.container}>
         <Container className={classes.root} maxWidth={'md'}>
-          <TopAppBar 
-            title={(this.state.listName === "") ? "Mi Lista de Compras" : this.state.listName} 
+          <TopAppBar
+            title={(this.state.listName === "") ? "Mi Lista de Compras" : this.state.listName}
             onOpen={this.openInputListName}
             isOpening={this.setIsOpeningAList}
             openDeleteDialog={this.toggleDeleteDialog}
@@ -189,7 +185,7 @@ class App extends React.Component {
             items={this.state.itemsNotLoaded}
             loadItem={this.loadItem}
             deleteItem={this.deleteItem}
-            openItemEdition={this.openItemEdition}
+            openItemEdition={this.toggleItemEdition}
           />
           <Divider light={true} variant='middle' />
           <ListItems
@@ -197,17 +193,17 @@ class App extends React.Component {
             items={this.state.itemsLoaded}
             loadItem={this.loadItem}
             deleteItem={this.deleteItem}
-            openItemEdition={this.openItemEdition}
+            openItemEdition={this.toggleItemEdition}
           />
           {editItem}
-          <DeleteDialog 
-            confirmDelete={this.confirmDelete} 
+          <DeleteDialog
+            confirmDelete={this.confirmDelete}
             isOpen={this.state.isOpenDeleteDialog}
           />
-          <ModalPersistance 
+          <ModalPersistance
             listName={this.state.listName}
             cancelInputListName={this.cancelInputListName}
-            setListName = {this.setListName}
+            setListName={this.setListName}
             open={this.state.inputListName}
           />
           <BottonBar
