@@ -45,18 +45,12 @@ function getModalStyle() {
 export default function ModalPersistance(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(props.open);
     const [listName, setListName] = React.useState(props.listName);
-
-    const handleClose = () => {
-        props.cancelInputListName();
-        setOpen(false);
-    };
 
     function handleSubmit(e) {
         e.preventDefault();
         props.setListName(listName);
-        handleClose();
+        props.closeImputListName();
     }
 
     function handleChange(e) {
@@ -67,7 +61,7 @@ export default function ModalPersistance(props) {
         <div>
             <Modal
                 open={props.open}
-                onClose={handleClose}
+                onClose={props.closeImputListName}
             >
                 <div style={modalStyle} className={classes.paper}>
                     <Typography>Abrir lista</Typography>

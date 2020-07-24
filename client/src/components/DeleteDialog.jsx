@@ -5,24 +5,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function DeleteDialog(props) {
-  const [open, setOpen] = React.useState(props.isOpen);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const acceptDelete = () => {
     props.confirmDelete(true);
-    handleClose();
   }
 
   const declineDelete = () => {
     props.confirmDelete(false);
-    handleClose();
   }
 
   return (

@@ -195,7 +195,7 @@ class App extends React.Component {
           />
           <ModalPersistance
             listName={this.state.listName}
-            cancelInputListName={this.toggleInputListName}
+            closeImputListName={this.toggleInputListName}
             setListName={this.setListName}
             open={this.state.inputListName}
           />
