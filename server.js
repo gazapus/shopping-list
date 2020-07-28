@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var express = require('express');
+var cors = require('cors');
 const bodyParser = require("body-parser");
 const keys = require('./keys');
 
@@ -7,6 +8,7 @@ const client = new MongoClient(keys.mongoUri, { useUnifiedTopology: true });
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors);
 
 app.get('/', function (req, res) {
   res.send('Hello Shoplist!');

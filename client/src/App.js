@@ -55,6 +55,7 @@ class App extends React.Component {
     this.setIsOpeningAList = this.setIsOpeningAList.bind(this);
     this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
+    this.saveList = this.saveList.bind(this);
   }
 
   addItem(item) {
@@ -117,11 +118,26 @@ class App extends React.Component {
     });
   }
 
+  saveList(name) {
+    let list = {
+      name: name,
+      list: this.state.itemsLoaded.concat(this.state.itemsNotLoaded),
+      date: new Date()
+    }
+    fetch('http://localhost:8000/save', {
+      method: 'POST',
+      body: list
+    })
+      .then(response => response.json())
+      .catch(error => console.error('Error:', error))
+  }
+
   setListName(name) {
     if (this.state.isOpeningAList) {
       console.log("abriendo lista")
     } else {
-      console.log("guardando lista")
+      console.log("guardando lista");
+      this.saveList(name);
     }
     this.setState({
       listName: name
@@ -154,12 +170,12 @@ class App extends React.Component {
       ammountEstimated += (item.price * item.quantity);
     }
     let editItem = "";
-    if(Object.keys(this.state.itemToEdit).length !== 0) {
+    if (Object.keys(this.state.itemToEdit).length !== 0) {
       editItem = <ModalEditItem
-      item={this.state.itemToEdit}
-      editItem={this.editItem}
-      cancelEdition={this.toggleItemEdition}
-    />
+        item={this.state.itemToEdit}
+        editItem={this.editItem}
+        cancelEdition={this.toggleItemEdition}
+      />
     }
     return (
       <div className={classes.container}>
