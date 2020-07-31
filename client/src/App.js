@@ -10,6 +10,7 @@ import ModalEditItem from './components/ModalEditItem';
 import ModalPersistance from './components/ModalPersistance';
 import DeleteDialog from './components/DeleteDialog';
 import Divider from '@material-ui/core/Divider';
+import Alert from '@material-ui/lab/Alert';
 import texture from './images/texture.jpg'
 
 const useStyles = theme => ({
@@ -30,6 +31,16 @@ const useStyles = theme => ({
     justifyContent: 'center',
     backgroundImage: `url(${texture})`,
     backgroundRepeat: 'repeat'
+  },
+  alert: {
+    position: 'absolute',
+    zIndex: 10,
+    width: '95%',
+    maxWidth: '900px',
+    marginTop: '5px',
+    marginLeft: '2%',
+    opacity: '0.95',
+    padding: '10px 0 10px 0'
   }
 });
 
@@ -43,7 +54,10 @@ class App extends React.Component {
       itemToEdit: {},
       inputListName: false,
       isOpeningAList: false,
-      isOpenDeleteDialog: false
+      isOpenDeleteDialog: false,
+      throwAlert: false,
+      alertText: '',
+      alertSeverity: ''
     };
     this.addItem = this.addItem.bind(this);
     this.loadItem = this.loadItem.bind(this);
@@ -126,10 +140,26 @@ class App extends React.Component {
     }
     fetch('http://localhost:8000/save', {
       method: 'POST',
-      body: list
+      body: JSON.stringify(list),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
-      .then(response => response.json())
-      .catch(error => console.error('Error:', error))
+      .then(response => { 
+        this.setState({
+          throwAlert: true,
+          alertText: 'Lista guardada como ' + name,
+          alertSeverity: 'success'
+        });
+       })
+      .catch(error => {
+        console.error('Error:', error);
+        this.setState({
+          throwAlert: true,
+          alertText: 'No se pudo guardar la lista',
+          alertSeverity: 'error'
+        });
+      })
   }
 
   setListName(name) {
@@ -177,9 +207,22 @@ class App extends React.Component {
         cancelEdition={this.toggleItemEdition}
       />
     }
+    let alert = '';
+    if (this.state.throwAlert) {
+      alert =
+        <Alert
+          severity={this.state.severity}
+          className={classes.alert}
+          variant="filled"
+          onClose={() => { this.setState({ throwAlert: false})}}
+        >
+          {this.state.alertText}
+        </Alert>
+    }
     return (
       <div className={classes.container}>
         <Container className={classes.root} maxWidth={'md'}>
+          {alert}
           <TopAppBar
             title={(this.state.listName === "") ? "Mi Lista de Compras" : this.state.listName}
             onOpen={this.toggleInputListName}

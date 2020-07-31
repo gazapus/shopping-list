@@ -1,6 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
 var express = require('express');
-var cors = require('cors');
 const bodyParser = require("body-parser");
 const keys = require('./keys');
 
@@ -8,14 +7,16 @@ const client = new MongoClient(keys.mongoUri, { useUnifiedTopology: true });
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors);
+app.use(bodyParser.json());//del
+app.use(express.json());//del
+
+client.connect();
 
 app.get('/', function (req, res) {
   res.send('Hello Shoplist!');
 });
 
 app.post('/save', async (req, res) => {
-  await client.connect();
   var db = client.db('shoppinglist');
   try {
     await db.collection("lists").replaceOne({ name: req.body.name }, req.body, { upsert: true });
@@ -24,17 +25,15 @@ app.post('/save', async (req, res) => {
     console.error(e);
     res.sendStatus(500);
   }
-});
+}); 
 
 app.get('/open/:name', async (req, res) => {
-  await client.connect();
   var db = client.db('shoppinglist');
   var result = await db.collection('lists').findOne({ name: req.params.name });
   res.send(result);
 });
 
 app.delete('/delete/:name', async (req, res) => {
-  await client.connect();
   var db = client.db('shoppinglist');
   try {
     await db.collection('lists').deleteOne({ name: req.params.name });
@@ -46,7 +45,6 @@ app.delete('/delete/:name', async (req, res) => {
 });
 
 app.get('/all', async (req, res) => {
-  await client.connect();
   var db = client.db('shoppinglist');
   try {
     let result = await db.collection('lists').find({}).toArray()
