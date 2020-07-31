@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import Container from '@material-ui/core/Container';
+import DeleteDialog from './components/DeleteDialog';
+import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import TopAppBar from './components/TopAppBar';
 import BottonBar from './components/BottonBar';
@@ -8,9 +10,9 @@ import InputItem from '././components/InputItem';
 import ListItems from './components/ListItems';
 import ModalEditItem from './components/ModalEditItem';
 import ModalPersistance from './components/ModalPersistance';
-import DeleteDialog from './components/DeleteDialog';
-import Divider from '@material-ui/core/Divider';
+import Spinner from './components/Spinner';
 import Alert from '@material-ui/lab/Alert';
+
 import texture from './images/texture.jpg'
 
 const useStyles = theme => ({
@@ -57,7 +59,8 @@ class App extends React.Component {
       isOpenDeleteDialog: false,
       throwAlert: false,
       alertText: '',
-      alertSeverity: ''
+      alertSeverity: '',
+      loading: false
     };
     this.addItem = this.addItem.bind(this);
     this.loadItem = this.loadItem.bind(this);
@@ -67,8 +70,8 @@ class App extends React.Component {
     this.toggleInputListName = this.toggleInputListName.bind(this);
     this.setListName = this.setListName.bind(this);
     this.setIsOpeningAList = this.setIsOpeningAList.bind(this);
-    this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
-    this.confirmDelete = this.confirmDelete.bind(this);
+    //this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
+    //this.confirmDelete = this.confirmDelete.bind(this);
     this.saveList = this.saveList.bind(this);
     this.openList = this.openList.bind(this);
   }
@@ -152,7 +155,8 @@ class App extends React.Component {
         this.setState({
           throwAlert: true,
           alertText: 'Lista guardada como ' + name,
-          alertSeverity: 'success'
+          alertSeverity: 'success',
+          listName: name
         });
       })
       .catch(error => {
@@ -162,6 +166,7 @@ class App extends React.Component {
           alertText: 'No se pudo guardar la lista',
           alertSeverity: 'error'
         });
+        setTimeout(() => {this.setState({ throwAlert: false})}, 6000);
       })
   }
 
@@ -178,28 +183,31 @@ class App extends React.Component {
         })
       })
       .catch(error => {
-        console.error('Error:', error);
         this.setState({
           throwAlert: true,
           alertText: 'No se pudo abrir la lista',
           alertSeverity: 'error'
+        });
+        setTimeout(() => {this.setState({ throwAlert: false})}, 6000);
+      })
+      .finally( () => {
+        this.setState({
+          loading: false
         });
       })
   }
 
   setListName(name) {
     if (this.state.isOpeningAList) {
-      console.log("abriendo lista");
+      this.setState({
+        loading: true
+      });
       this.openList(name);
     } else {
-      console.log("guardando lista");
       this.saveList(name);
     }
-    this.setState({
-      listName: name
-    });
   }
-
+/*
   toggleDeleteDialog() {
     this.setState({
       isOpenDeleteDialog: !this.state.isOpenDeleteDialog
@@ -214,7 +222,7 @@ class App extends React.Component {
     }
     this.toggleDeleteDialog();
   }
-
+*/
   render() {
     const { classes } = this.props;
     let total = 0;
@@ -247,6 +255,7 @@ class App extends React.Component {
     }
     return (
       <div className={classes.container}>
+        {(this.state.loading) ? <Spinner/> : ''}
         <Container className={classes.root} maxWidth={'md'}>
           {alert}
           <TopAppBar

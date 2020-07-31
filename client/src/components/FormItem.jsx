@@ -78,7 +78,7 @@ export default function FormItem(props) {
                         onChange={handleChange}
                         inputProps={{
                             min: 0,
-                            step: 0.1
+                            step: 0.01
                         }}
                         onClick={select}
                     />
@@ -94,7 +94,7 @@ export default function FormItem(props) {
                         color='primary'
                         inputProps={{
                             min: 1,
-                            step: 0.1
+                            step: 0.01
                         }}
                         onClick={select}
                     />

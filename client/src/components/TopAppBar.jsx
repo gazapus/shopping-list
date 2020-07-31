@@ -69,11 +69,10 @@ function TopAppBar(props) {
                     >
                          <MenuItem onClick={openList}><ImportContactsIcon/>&nbsp; Abrir</MenuItem>
                          <MenuItem onClick={saveList}><SaveIcon/>&nbsp; Guardar</MenuItem>
-                         <MenuItem onClick={deleteList}><HighlightOffIcon/>&nbsp; Eliminar</MenuItem>
+                         <MenuItem onClick={deleteList} disabled={true}><HighlightOffIcon/>&nbsp; Eliminar</MenuItem>
                     </Menu>
                </Toolbar>
           </AppBar>
      );
 }
-
 export default TopAppBar;
