@@ -70,6 +70,7 @@ class App extends React.Component {
     this.toggleDeleteDialog = this.toggleDeleteDialog.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.saveList = this.saveList.bind(this);
+    this.openList = this.openList.bind(this);
   }
 
   addItem(item) {
@@ -135,7 +136,8 @@ class App extends React.Component {
   saveList(name) {
     let list = {
       name: name,
-      list: this.state.itemsLoaded.concat(this.state.itemsNotLoaded),
+      itemsLoaded: this.state.itemsLoaded,
+      itemsNotLoaded: this.state.itemsNotLoaded,
       date: new Date()
     }
     fetch('http://localhost:8000/save', {
@@ -145,13 +147,14 @@ class App extends React.Component {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => { 
+      .then(response => {
+        if (response.status === 500) throw new Error();
         this.setState({
           throwAlert: true,
           alertText: 'Lista guardada como ' + name,
           alertSeverity: 'success'
         });
-       })
+      })
       .catch(error => {
         console.error('Error:', error);
         this.setState({
@@ -162,9 +165,32 @@ class App extends React.Component {
       })
   }
 
+  openList(name) {
+    fetch('http://localhost:8000/open/' + name)
+      .then(response => {
+        if (response.status === 404) throw new Error();
+        response.json().then(json => {
+          this.setState({
+            itemsLoaded: json.itemsLoaded,
+            itemsNotLoaded: json.itemsNotLoaded,
+            listName: name,
+          });
+        })
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        this.setState({
+          throwAlert: true,
+          alertText: 'No se pudo abrir la lista',
+          alertSeverity: 'error'
+        });
+      })
+  }
+
   setListName(name) {
     if (this.state.isOpeningAList) {
-      console.log("abriendo lista")
+      console.log("abriendo lista");
+      this.openList(name);
     } else {
       console.log("guardando lista");
       this.saveList(name);
@@ -211,10 +237,10 @@ class App extends React.Component {
     if (this.state.throwAlert) {
       alert =
         <Alert
-          severity={this.state.severity}
+          severity={this.state.alertSeverity}
           className={classes.alert}
           variant="filled"
-          onClose={() => { this.setState({ throwAlert: false})}}
+          onClose={() => { this.setState({ throwAlert: false }) }}
         >
           {this.state.alertText}
         </Alert>

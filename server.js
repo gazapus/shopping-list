@@ -27,9 +27,12 @@ app.post('/save', async (req, res) => {
   }
 }); 
 
-app.get('/open/:name', async (req, res) => {
+app.get('/open/:name', async (req, res, next) => {
   var db = client.db('shoppinglist');
   var result = await db.collection('lists').findOne({ name: req.params.name });
+  if(result === null){
+    return res.status(404).send();
+  }
   res.send(result);
 });
 
