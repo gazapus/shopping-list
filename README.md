@@ -1,5 +1,5 @@
 # Shopping List
-Single Page Application de una lista de compras con un sencillo backend para guardar y abrir las listas creadas.  
+Single Page Application de una lista de compras desarrollada en la orientación Mobile First con un sencillo backend para guardar y abrir las listas creadas.  
 Características: 
 - Agregar items y opcionalmente agregar el precio y cantidad
 - Marcar los items ya listas, modificarlos y/o eliminarlos
