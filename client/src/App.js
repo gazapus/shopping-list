@@ -166,6 +166,8 @@ class App extends React.Component {
           alertText: 'No se pudo guardar la lista',
           alertSeverity: 'error'
         });
+      })
+      .finally( () => {
         setTimeout(() => {this.setState({ throwAlert: false})}, 6000);
       })
   }
