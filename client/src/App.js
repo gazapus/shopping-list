@@ -143,7 +143,7 @@ class App extends React.Component {
       itemsNotLoaded: this.state.itemsNotLoaded,
       date: new Date()
     }
-    fetch('http://localhost:8000/save', {
+    fetch('https://shoppinglistweb.herokuapp.com/save', {
       method: 'POST',
       body: JSON.stringify(list),
       headers: {
@@ -171,7 +171,7 @@ class App extends React.Component {
   }
 
   openList(name) {
-    fetch('http://localhost:8000/open/' + name)
+    fetch('https://shoppinglistweb.herokuapp.com/open/' + name)
       .then(response => {
         if (response.status === 404) throw new Error();
         response.json().then(json => {
